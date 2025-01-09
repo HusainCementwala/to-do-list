@@ -17,11 +17,7 @@ todoList.forEach((todoObject,index)=>{ //chnaged it to an arrow function
   const html = `
   <div>${name}</div>
   <div>${date}</div> 
-  <button onclick="
-  todoList.splice(${index},1);
-  renderTodoList();
-  saveToStorage();
-  " class="delete-button">Delete</button>`;
+  <button class="delete-button js-delete-todo-button">Delete</button>`;
   
   todoListHTML += html ;
 
@@ -29,7 +25,45 @@ todoList.forEach((todoObject,index)=>{ //chnaged it to an arrow function
 
 document.querySelector('.js-todo-list') /* we put <p> from here as we cannot put a para in div directly in html*/
 .innerHTML = todoListHTML;
+
+
+
+//using eventListener
+document.querySelectorAll('.js-delete-todo-button')
+ .forEach((deleteButton,index)=>{
+
+ deleteButton.addEventListener('click',
+  ()=>{
+    todoList.splice(index,1);
+  renderTodoList();
+  saveToStorage();
+  }
+ );
+
+ });
+
+
+
+
 }
+
+
+//adding eventListener instead of onclick
+document.querySelector('.js-add-todo-button').addEventListener('click',()=>{
+  addTodo();
+});
+
+
+
+//adding eventListener instead of onkeydown
+document.body.addEventListener('keydown',(event)=>{
+  if(event.key === 'Enter'){
+    addTodo();
+  }
+});
+
+
+
 
 
 
@@ -40,7 +74,13 @@ function addTodo(){
 
   const dateInputElement = document.querySelector('.js-due-date-input');
   const dueDate = dateInputElement.value;
+ 
 
+  // Check if the input is empty
+  if (!name) {
+    alert('Please enter a task!');
+    return; // Stop further execution if input is invalid
+  }
 
   todoList.push({
    name : name,
