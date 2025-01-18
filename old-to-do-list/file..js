@@ -88,7 +88,7 @@ function addTodo(){
     
   });
   
-inputElement.value = '';
+inputElement.value = '';//erasing the current typed task from input box so that new task can be typed
 renderTodoList();
 
 saveToStorage();
